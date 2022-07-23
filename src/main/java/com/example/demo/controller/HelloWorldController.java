@@ -11,8 +11,10 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.springframework.beans.factory.annotation.Autowire;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
@@ -34,7 +36,8 @@ public class HelloWorldController {
     }
 
     @GetMapping(value="/get")
-    public String method3() {
+    //this will display as api on screen
+    public ResponseEntity<JsonNode> method3() {
         CloseableHttpClient httpClient = HttpClients.createDefault();
 
         HttpGet request = new HttpGet("https://dog.ceo/api/breeds/image/random");
@@ -53,6 +56,8 @@ public class HelloWorldController {
 
                 mainNode = objMapper.readTree(result);
                 System.out.println(mainNode.path("message"));
+                //this will show the api that is avaiable and then you can key into the values if needed
+                return ResponseEntity.ok(mainNode);
             }
 
 
